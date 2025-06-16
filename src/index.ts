@@ -2,6 +2,15 @@ import WebSocket from "ws";
 import { MIGRATE_SOCKET_DATA } from "./types";
 import { writeFileSync } from "fs";
 import { Telegraf } from "telegraf";
+import express from "express";
+import cors from "cors";
+const app = express();
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
 const bot = new Telegraf(
   process.env.BOT_TOKEN || "7233575767:AAGKpAt9sBaXDt1QtMjbXpKpSFrlPA6WAH0"
 );
@@ -27,3 +36,5 @@ ws.on("message", function message(data) {
   );
   writeFileSync("./logs/migrate.json", JSON.stringify(parsedData, null, 2));
 });
+
+app.listen(8008, () => console.log(`Server is Running on port ${8008}`));
