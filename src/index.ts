@@ -3,11 +3,12 @@ import { MIGRATE_SOCKET_DATA, NEW_TOKEN_SOCKET_DATA } from "./types";
 import { writeFileSync } from "fs";
 import { Telegraf } from "telegraf";
 import express from "express";
-import { Connection } from '@solana/web3.js'
+import { Connection, LAMPORTS_PER_SOL } from '@solana/web3.js'
 import cors from "cors";
 import { PUMP_FUN_SIGNAL, PUMP_AMM_BUY_SIGNAL, PUMP_AMM_SELL_SIGNAL, PUMP_FUN_EVENT, PUMP_AMM_BUY_EVENT, PUMP_AMM_SELL_EVENT } from "./types";
 import { decodePumpAMMData, decodePumpFunData } from "./decode";
 import dotenv from 'dotenv'
+import { getPumpDataFromMintAddress } from "./utils";
 
 dotenv.config()
 const app = express();
@@ -16,7 +17,7 @@ app.use(
     origin: "*",
   })
 );
-const connection = new Connection(process.env.RPC_URL || "", "confirmed")
+
 const bot = new Telegraf(
   process.env.BOT_TOKEN || "7233575767:AAGKpAt9sBaXDt1QtMjbXpKpSFrlPA6WAH0"
 );
@@ -184,6 +185,66 @@ wsMigrate.on("message", function message(data) {
 wsNewMint.on("message", async function message(data) {
   const parsedData = JSON.parse(data.toString()) as NEW_TOKEN_SOCKET_DATA;
 
+  if (parsedData.solAmount === 1.980198019) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken1.98.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken1.98.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
+  if (parsedData.solAmount === 3) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken3.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken3.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
+  if (parsedData.solAmount === 2.5) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken2.5.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken2.5.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
+  if (parsedData.solAmount === 2) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken2.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken2.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
   writeFileSync("./logs/newToken.json", JSON.stringify(parsedData, null, 2), {
     flag: 'a'
   });
