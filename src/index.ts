@@ -230,6 +230,52 @@ wsNewMint.on("message", async function message(data) {
 
     }, 1000);
   }
+  if (parsedData.solAmount > 1.49 && parsedData.solAmount < 1.5) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken1.49.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken1.49.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
+  if (parsedData.solAmount === 0.990000001) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken0.99.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken0.99.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
+  if (parsedData.solAmount === 2.970297029) {
+    setTimeout(async () => {
+      const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
+      if (pumpData) {
+        writeFileSync("./logs/newToken2.97.json", JSON.stringify({ ...parsedData, secondVSol: pumpData.virtualSolReserves / LAMPORTS_PER_SOL, secondVToken: pumpData.virtualTokenReserves / 1_000_000 }, null, 2), {
+          flag: 'a'
+        });
+        return
+      }
+      writeFileSync("./logs/newToken2.97.json", JSON.stringify(parsedData, null, 2), {
+        flag: 'a'
+      });
+
+    }, 1000);
+  }
+
   if (parsedData.solAmount === 2) {
     setTimeout(async () => {
       const pumpData = await getPumpDataFromMintAddress(parsedData.mint)
